@@ -10,7 +10,7 @@ const HomeInfo = ({ currentStage }) => {
         <span className='font-semibold mx-2 text-white'>Suman</span>
         👋
         <br />
-        A Unity Developer
+        An AR/XR Developer & Team Lead
       </h1>
     );
 
@@ -18,7 +18,7 @@ const HomeInfo = ({ currentStage }) => {
     return (
       <div className='info-box'>
         <p className='font-medium sm:text-xl text-center'>
-          Worked with many companies <br /> and picked up many skills along the way
+          I build AR on smart glasses, the hardware behind it, <br /> and the AI that makes it useful
         </p>
 
         <Link to='/about' className='neo-brutalism-white neo-btn'>
@@ -33,7 +33,7 @@ const HomeInfo = ({ currentStage }) => {
     return (
       <div className='info-box'>
         <p className='font-medium text-center sm:text-xl'>
-          Led multiple projects to success over the years. <br /> Curious about the impact?
+          Experience centres, aerospace exhibits, digital twins. <br /> Curious what that looks like?
         </p>
 
         <Link to='/projects' className='neo-brutalism-white neo-btn'>

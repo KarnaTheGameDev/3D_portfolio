@@ -1,28 +1,39 @@
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useEffect, useRef, useState } from "react";
 
-import sakura from "../assets/sakura.mp3";
 import { HomeInfo, Loader } from "../components";
 import { soundoff, soundon } from "../assets/icons";
 import { Bird, Island, Plane, Sky } from "../models";
 
 const Home = () => {
-  const audioRef = useRef(new Audio(sakura));
-  audioRef.current.volume = 0.4;
-  audioRef.current.loop = true;
+  // The track lives in public/ and is only fetched the first time the user
+  // asks for sound, so the 5MB file never blocks the initial page load.
+  const audioRef = useRef(null);
 
   const [currentStage, setCurrentStage] = useState(1);
   const [isRotating, setIsRotating] = useState(false);
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
 
+  const toggleMusic = () => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio("/sakura.mp3");
+      audioRef.current.volume = 0.4;
+      audioRef.current.loop = true;
+    }
+    setIsPlayingMusic((prev) => !prev);
+  };
+
   useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
     if (isPlayingMusic) {
-      audioRef.current.play();
+      audio.play();
+    } else {
+      audio.pause();
     }
 
-    return () => {
-      audioRef.current.pause();
-    };
+    return () => audio.pause();
   }, [isPlayingMusic]);
 
   const adjustBiplaneForScreenSize = () => {
@@ -108,7 +119,7 @@ const Home = () => {
         <img
           src={!isPlayingMusic ? soundoff : soundon}
           alt='jukebox'
-          onClick={() => setIsPlayingMusic(!isPlayingMusic)}
+          onClick={toggleMusic}
           className='w-10 h-10 cursor-pointer object-contain'
         />
       </div>

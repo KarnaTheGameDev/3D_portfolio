@@ -1,8 +1,42 @@
-import { Link } from "react-router-dom";
-
 import { CTA } from "../components";
-import { projects } from "../constants";
+import { projects, PROJECT_CATEGORIES } from "../constants";
 import { arrow } from "../assets/icons";
+
+const ProjectCard = ({ project }) => (
+  <div className='lg:w-[400px] w-full'>
+    <div className='block-container w-12 h-12'>
+      <div className={`btn-back rounded-xl ${project.theme}`} />
+      <div className='btn-front rounded-xl flex justify-center items-center'>
+        <img
+          src={project.iconUrl}
+          alt=''
+          className='w-1/2 h-1/2 object-contain'
+        />
+      </div>
+    </div>
+
+    <div className='mt-5 flex flex-col'>
+      <h4 className='text-2xl font-poppins font-semibold'>{project.name}</h4>
+      <p className='mt-2 text-slate-500'>{project.description}</p>
+
+      {project.link && (
+        <div className='mt-5 flex items-center gap-2 font-poppins'>
+          {/* A plain anchor, not react-router's Link — Link is for in-app
+              paths and mangles absolute URLs. */}
+          <a
+            href={project.link}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='font-semibold text-blue-600'
+          >
+            View project
+          </a>
+          <img src={arrow} alt='' className='w-4 h-4 object-contain' />
+        </div>
+      )}
+    </div>
+  </div>
+);
 
 const Projects = () => {
   return (
@@ -15,53 +49,29 @@ const Projects = () => {
       </h1>
 
       <p className='text-slate-500 mt-2 leading-relaxed'>
-        I've embarked on numerous projects throughout the years, but these are
-        the ones I hold closest to my heart. Many of them are open-source, so if
-        you come across something that piques your interest, feel free to
-        explore the codebase and contribute your ideas for further enhancements.
-        Your collaboration is highly valued!
+        A mix of client work and things I built for myself. The client projects
+        are AR, IoT and simulation systems shipped for real venues and
+        engineering teams, so most have no public link. The personal ones are
+        open source &mdash; have a dig through the code.
       </p>
 
-      <div className='flex flex-wrap my-20 gap-16'>
-        {projects.map((project) => (
-          <div className='lg:w-[400px] w-full' key={project.name}>
-            <div className='block-container w-12 h-12'>
-              <div className={`btn-back rounded-xl ${project.theme}`} />
-              <div className='btn-front rounded-xl flex justify-center items-center'>
-                <img
-                  src={project.iconUrl}
-                  alt='threads'
-                  className='w-1/2 h-1/2 object-contain'
-                />
-              </div>
-            </div>
+      {PROJECT_CATEGORIES.map(({ key, label }) => {
+        const group = projects.filter((project) => project.category === key);
+        if (group.length === 0) return null;
 
-            <div className='mt-5 flex flex-col'>
-              <h4 className='text-2xl font-poppins font-semibold'>
-                {project.name}
-              </h4>
-              <p className='mt-2 text-slate-500'>{project.description}</p>
-              <div className='mt-5 flex items-center gap-2 font-poppins'>
-                <Link
-                  to={project.link}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='font-semibold text-blue-600'
-                >
-                  Live Link
-                </Link>
-                <img
-                  src={arrow}
-                  alt='arrow'
-                  className='w-4 h-4 object-contain'
-                />
-              </div>
+        return (
+          <div key={key} className='mt-20'>
+            <h3 className='subhead-text'>{label}</h3>
+            <div className='flex flex-wrap mt-12 gap-16'>
+              {group.map((project) => (
+                <ProjectCard key={project.name} project={project} />
+              ))}
             </div>
           </div>
-        ))}
-      </div>
+        );
+      })}
 
-      <hr className='border-slate-200' />
+      <hr className='border-slate-200 mt-20' />
 
       <CTA />
     </section>

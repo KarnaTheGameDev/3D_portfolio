@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local env — EmailJS credentials, never commit
+.env
+.env.local
+.env.*.local

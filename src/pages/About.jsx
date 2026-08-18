@@ -22,25 +22,46 @@ const About = () => {
 
       <div className='mt-5 flex flex-col gap-3 text-slate-500'>
         <p>
-          Unity Developer based in Mangalore, specializing in technical
-          education through hands-on learning and building applications.
+          AR/XR developer and team lead based in Bengaluru, with 4+ years
+          building immersive applications across aerospace, automotive, retail,
+          beverage and education. I currently lead a 5-person team delivering a
+          full interactive experience centre &mdash; AR software on Viture and
+          Xreal smart glasses, ESP32-based RFID hardware, and a custom CMS that
+          drives the venue&apos;s displays, audio and climate systems.
+        </p>
+        <p>
+          I&apos;m comfortable owning a build from 3D content through embedded
+          hardware and AI services to the software that ties them together.
         </p>
       </div>
 
       <div className='py-10 flex flex-col'>
         <h3 className='subhead-text'>My Skills</h3>
 
-        <div className='mt-16 flex flex-wrap gap-12'>
+        <div className='mt-16 flex flex-wrap gap-10'>
           {skills.map((skill) => (
-            <div className='block-container w-20 h-20' key={skill.name}>
-              <div className='btn-back rounded-xl' />
-              <div className='btn-front rounded-xl flex justify-center items-center'>
-                <img
-                  src={skill.imageUrl}
-                  alt={skill.name}
-                  className='w-1/2 h-1/2 object-contain'
-                />
+            <div className='flex flex-col items-center gap-2' key={skill.name}>
+              <div className='block-container w-20 h-20'>
+                <div className='btn-back rounded-xl' />
+                <div className='btn-front rounded-xl flex justify-center items-center'>
+                  {skill.imageUrl ? (
+                    <img
+                      src={skill.imageUrl}
+                      alt={skill.name}
+                      className='w-1/2 h-1/2 object-contain'
+                    />
+                  ) : (
+                    <span className='font-poppins font-semibold text-black-500 text-lg'>
+                      {skill.shortName}
+                    </span>
+                  )}
+                </div>
               </div>
+              {skill.name !== skill.shortName && (
+                <p className='w-20 text-center text-xs leading-tight text-slate-500'>
+                  {skill.name}
+                </p>
+              )}
             </div>
           ))}
         </div>
@@ -50,16 +71,17 @@ const About = () => {
         <h3 className='subhead-text'>Work Experience.</h3>
         <div className='mt-5 flex flex-col gap-3 text-slate-500'>
           <p>
-            I've worked with all sorts of companies, leveling up my skills and
-            teaming up with smart people. Here's the rundown:
+            Five roles across four companies since 2022, moving from Unity
+            application work into AR on smart glasses, embedded hardware and
+            real-time 3D simulation. Here&apos;s the rundown:
           </p>
         </div>
 
         <div className='mt-12 flex'>
           <VerticalTimeline>
-            {experiences.map((experience, index) => (
+            {experiences.map((experience) => (
               <VerticalTimelineElement
-                key={experience.company_name}
+                key={experience.id}
                 date={experience.date}
                 iconStyle={{ background: experience.iconBg }}
                 icon={
@@ -88,6 +110,14 @@ const About = () => {
                   >
                     {experience.company_name}
                   </p>
+                  {experience.client && (
+                    <p
+                      className='text-black-500/60 font-normal text-sm'
+                      style={{ margin: 0 }}
+                    >
+                      Client: {experience.client}
+                    </p>
+                  )}
                 </div>
 
                 <ul className='my-5 list-disc ml-5 space-y-2'>
